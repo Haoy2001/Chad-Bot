@@ -1,0 +1,25 @@
+{
+    "_comment": [
+        "Role IDs",
+        "498576446147788824 = EngineerMan/team",
+        "475750306173681675 = EngineerMan/staff",
+        "473167481624854541 = EngineerMan/fellows",
+        "473268630738567171 = EngineerMan/engineer man",
+        "482475047538393098 = private pizza party/admin",
+        "484417507369680896 = Brtwrsts Server/NotABot",
+        "449675183108653056 = bot arena/Admin",
+        "482553467055898645 = bot arena/Mod"
+    ],
+    "helpall":
+    [
+        319254648722685952
+    ],
+    "management":
+    [
+        319254648722685952
+    ],
+    "purge":
+    [
+        319254648722685952
+    ]
+}
