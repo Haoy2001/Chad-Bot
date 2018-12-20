@@ -16,7 +16,7 @@ with open("config.json", "r") as conffile:
     config = json.load(conffile)
 
 bot = Bot(command_prefix=('chad ', 'c '),
-          description='Hi I am Chad Bot!',
+          description='Hi I am a Chad and also a Bot!',
           help_attrs={'name': 'defaulthelp', 'hidden': True},
           max_messages=15000
           )

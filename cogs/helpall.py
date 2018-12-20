@@ -115,7 +115,7 @@ class Help():
     )
     @commands.guild_only()
     async def newhelp(self, ctx):
-        is_sub = ctx.message.content not in 'c help '
+        is_sub = ctx.message.content not in 'chad help '
         self.client.formatter = myHelpFormatter(False, is_sub)
         await self.client.get_command('defaulthelp').invoke(ctx)
         self.client.formatter = HelpFormatter()
