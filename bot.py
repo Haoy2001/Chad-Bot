@@ -41,9 +41,11 @@ async def on_ready():
     print('Chad Bot started successfully')
     return True
 
+
 @bot.event
 async def on_message(message):
     await bot.process_commands(message)
+
 
 @bot.event
 async def on_command_error(ctx, exception):
@@ -63,6 +65,7 @@ async def on_command_error(ctx, exception):
         return
 
     print(f'Ignoring exception in command {ctx.command}:', file=sys.stderr)
-    traceback.print_exception(type(exception), exception, exception.__traceback__, file=sys.stderr)
+    traceback.print_exception(
+        type(exception), exception, exception.__traceback__, file=sys.stderr)
 bot.run(config["key"])
 print('Chad Bot has exited')

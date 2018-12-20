@@ -91,62 +91,14 @@ class myHelpFormatter(HelpFormatter):
             if filtered:
                 self._paginator.add_line('Commands:')
                 self._add_subcommands_to_page(max_width, filtered)
-
-        # Don't print node commands if help is called with a subcommand
-        if self.is_sub:
-            return self._paginator.pages
-
-        try:
-            with open('node_help.txt') as f:
-                node_help = f.read().strip()
-                node_help = node_help.split('\n')
-                node_help_mod = []
-                # Split node_help into public part and mod only part
-                # the line to split at should begin with ---
-                for i in range(len(node_help)):
-                    if node_help[i].startswith('---'):
-                        node_help_mod = node_help[i+1:]
-                        node_help = node_help[0:i]
-                        break
-                # Print public part
-                for line in node_help:
-                    if ':' in line:
-                        c, d = line.split(':')
-                        num_spaces = max_width - len(c) + 1
-                        self._paginator.add_line('  ' + c + ' '*num_spaces + d)
-                    else:
-                        self._paginator.add_line(line + ':')
-                # if helpall was called - also print the mod only part
-                if self.show_hidden:
-                    for line in node_help_mod:
-                        if ':' in line:
-                            c, d = line.split(':')
-                            num_spaces = max_width - len(c) + 1
-                            self._paginator.add_line(
-                                '  ' + c + ' '*num_spaces + d)
-                        else:
-                            self._paginator.add_line(line + ':')
-
-        except FileNotFoundError as e:
-            print('node_help.txt not found', e)
         return self._paginator.pages
 
 
 def is_staff():
-    """Used as a decorator for bot commands
-    to make sure only staff can see/use it
-
-    we don't use __local_checks in this cog because we have 2 different commands
-    that have different role restrictions
-    """
     async def predicate(ctx):
-        with open(path.join(path.dirname(__file__), 'permissions.json')) as f:
-            permitted_roles = json.load(f)[__name__.split('.')[-1]]
-        try:
-            user_roles = [role.id for role in ctx.message.author.roles]
-        except AttributeError:
-            return False
-        return any(role in permitted_roles for role in user_roles)
+            with open(path.join(path.dirname(__file__), 'permissions.json')) as f:
+                permitted_ids = json.load(f)[__name__.split('.')[-1]]
+                return ctx.message.author.id in permitted_ids
     return commands.check(predicate)
 
 
@@ -179,7 +131,7 @@ class Help():
     @commands.guild_only()
     @is_staff()
     async def helpall(self, ctx):
-        is_sub = ctx.message.content not in 'felix helpall '
+        is_sub = ctx.message.content not in 'chad helpall '
         self.client.formatter = myHelpFormatter(True, is_sub)
         await self.client.get_command('defaulthelp').invoke(ctx)
         self.client.formatter = HelpFormatter()

@@ -1,0 +1,11 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "bot run",
+            "type": "shell",
+            "command": "python3 bot.py",
+            "problemMatcher": []
+        }
+    ]
+}

@@ -36,14 +36,10 @@ class Purge():
     def __init__(self, client):
         self.client = client
         with open(path.join(path.dirname(__file__), 'permissions.json')) as f:
-            self.permitted_roles = json.load(f)[__name__.split('.')[-1]]
+            self.permitted_ids = json.load(f)[__name__.split('.')[-1]]
 
     async def __local_check(self, ctx):
-        try:
-            user_roles = [role.id for role in ctx.message.author.roles]
-        except AttributeError:
-            return False
-        return any(role in self.permitted_roles for role in user_roles)
+        return ctx.message.author.id in self.permitted_ids
 
     # ----------------------------------------------
     # Function Group to clear channel of messages

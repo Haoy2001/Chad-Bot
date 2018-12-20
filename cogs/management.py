@@ -34,19 +34,16 @@ class Management():
     def __init__(self, client):
         self.client = client
         with open(path.join(path.dirname(__file__), 'permissions.json')) as f:
-            self.permitted_roles = json.load(f)[__name__.split('.')[-1]]
+            self.permitted_ids = json.load(f)[__name__.split('.')[-1]]
 
     async def __local_check(self, ctx):
-        try:
-            user_roles = [role.id for role in ctx.message.author.roles]
-        except AttributeError:
-            return False
-        return any(role in self.permitted_roles for role in user_roles)
+        return ctx.message.author.id in self.permitted_ids
 
     async def on_ready(self):
         version = self.get_version_info()[0][:7]
         await self.client.change_presence(
-            activity=Activity(name=f'on {version}', type=0)
+            #activity=Activity(name=f'on {version}', type=0)
+            activity=Activity(name=f'Chadcraft', type=0)
         )
 
     def get_version_info(self):
@@ -65,7 +62,7 @@ class Management():
     def get_num_remote_commits(self):
         last_commit = self.get_version_info()[0]
         ext = f'?per_page=10&sha=master'
-        repo = 'engineer-man/felix'
+        repo = 'Haoy2001/Chad-Bot'
         nxt = f'https://api.github.com/repos/{repo}/commits{ext}'
         repo_data = []
         repo_shas = []
@@ -97,7 +94,7 @@ class Management():
             status = f"I am [{remote_commits}] commits behind 'origin/master'"\
                 f" [{remote_date}]"
         await ctx.send(
-            f'```css\nCurrent Version: [{version[:7]}].from [{date}]' +
+            f'```css\nCurrent Version: [{version[:7]}] from [{date}]' +
             f'\n{status}```'
         )
 
@@ -202,6 +199,19 @@ class Management():
         ]
         await ctx.send(''.join(response))
         return True
+
+    # ----------------------------------------------
+    # Function to stop the bot
+    # ----------------------------------------------
+    @commands.command(
+        name='stop',
+        brief='Stops the bot',
+        description='Stops the bot',
+        aliases=['halt'],
+        hidden=True,
+    )
+    async def stop(self, ctx):
+        await self.client.logout()
 
     # ----------------------------------------------
     # Function to set the bot's status message
